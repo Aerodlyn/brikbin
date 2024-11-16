@@ -10,6 +10,12 @@ enum Permissions: string
     case UPDATE_CATEGORIES = 'update categories';
     case VIEW_CATEGORIES = 'view categories';
 
+    case CREATE_COLORS = 'create colors';
+    case DELETE_COLORS = 'delete colors';
+    case RESTORE_COLORS = 'restore colors';
+    case UPDATE_COLORS = 'update colors';
+    case VIEW_COLORS = 'view colors';
+
     case CREATE_PARTS = 'create parts';
     case DELETE_PARTS = 'delete parts';
     case RESTORE_PARTS = 'restore parts';
@@ -19,6 +25,12 @@ enum Permissions: string
     public function label(): string
     {
         return match ($this) {
+            Permissions::CREATE_COLORS => 'Create Colors',
+            Permissions::DELETE_COLORS => 'Delete Colors',
+            Permissions::RESTORE_COLORS => 'Restore Colors',
+            Permissions::UPDATE_COLORS => 'Update Colors',
+            Permissions::VIEW_COLORS => 'View Colors',
+
             Permissions::CREATE_CATEGORIES => 'Create Categories',
             Permissions::DELETE_CATEGORIES => 'Delete Categories',
             Permissions::RESTORE_CATEGORIES => 'Restore Categories',

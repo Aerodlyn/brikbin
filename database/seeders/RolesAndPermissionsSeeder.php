@@ -15,6 +15,12 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
+        Permission::create(['name' => Permissions::CREATE_COLORS->value]);
+        Permission::create(['name' => Permissions::DELETE_COLORS->value]);
+        Permission::create(['name' => Permissions::RESTORE_COLORS->value]);
+        Permission::create(['name' => Permissions::UPDATE_COLORS->value]);
+        Permission::create(['name' => Permissions::VIEW_COLORS->value]);
+
         Permission::create(['name' => Permissions::CREATE_CATEGORIES->value]);
         Permission::create(['name' => Permissions::DELETE_CATEGORIES->value]);
         Permission::create(['name' => Permissions::RESTORE_CATEGORIES->value]);
