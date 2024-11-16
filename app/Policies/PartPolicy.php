@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\Permissions;
 use App\Models\Part;
 use App\Models\User;
 
@@ -12,7 +13,7 @@ class PartPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(Permissions::VIEW_PARTS);
     }
 
     /**
@@ -20,7 +21,7 @@ class PartPolicy
      */
     public function view(User $user, Part $part): bool
     {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(Permissions::VIEW_PARTS);
     }
 
     /**
@@ -28,7 +29,7 @@ class PartPolicy
      */
     public function create(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(Permissions::CREATE_PARTS);
     }
 
     /**
@@ -36,7 +37,7 @@ class PartPolicy
      */
     public function update(User $user, Part $part): bool
     {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(Permissions::UPDATE_PARTS);
     }
 
     /**
@@ -44,7 +45,7 @@ class PartPolicy
      */
     public function delete(User $user, Part $part): bool
     {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(Permissions::DELETE_PARTS);
     }
 
     /**
@@ -52,7 +53,7 @@ class PartPolicy
      */
     public function restore(User $user, Part $part): bool
     {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(Permissions::RESTORE_PARTS);
     }
 
     /**
@@ -60,12 +61,6 @@ class PartPolicy
      */
     public function forceDelete(User $user, Part $part): bool
     {
-        return $this->isAdmin($user);
-    }
-
-    private function isAdmin(User $user): bool
-    {
-        return str_ends_with($user->email, '@aerodlyn.io')
-            && $user->hasVerifiedEmail();
+        return $user->hasPermissionTo(Permissions::DELETE_PARTS);
     }
 }

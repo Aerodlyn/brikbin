@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Imports;
+namespace App\Filament\Admin\Imports;
 
 use App\Models\Part;
 use Filament\Actions\Imports\ImportColumn;
@@ -18,6 +18,10 @@ class PartImporter extends Importer
                 ->requiredMapping()
                 ->rules(['required']),
             ImportColumn::make('description')
+                ->requiredMapping()
+                ->rules(['required']),
+            ImportColumn::make('category')
+                ->relationship()
                 ->requiredMapping()
                 ->rules(['required']),
         ];
