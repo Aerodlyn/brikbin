@@ -2,11 +2,11 @@
 
 namespace App\Providers\Filament;
 
-use App\Enums\Roles;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -20,45 +20,37 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AppPanelProvider extends PanelProvider
+class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('app')
-            ->path('')
+            ->id('admin')
+            ->path('admin')
             ->login()
-            ->registration()
-            ->passwordReset()
-            ->emailVerification()
-            ->profile()
             ->userMenuItems([
                 MenuItem::make()
-                    ->label('Admin')
-                    ->url('/admin')
-                    ->icon('heroicon-o-user')
-                    ->visible(
-                        fn(): bool => auth()->user()->hasRole(Roles::ADMIN),
-                    ),
+                    ->label('App')
+                    ->url('/')
+                    ->icon('heroicon-o-user'),
             ])
             ->colors([
                 'primary' => Color::Red,
             ])
             ->discoverResources(
-                in: app_path('Filament/App/Resources'),
-                for: 'App\\Filament\\App\\Resources',
+                in: app_path('Filament/Admin/Resources'),
+                for: 'App\\Filament\\Admin\\Resources',
             )
             ->discoverPages(
-                in: app_path('Filament/App/Pages'),
-                for: 'App\\Filament\\App\\Pages',
+                in: app_path('Filament/Admin/Pages'),
+                for: 'App\\Filament\\Admin\\Pages',
             )
             ->pages([
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(
-                in: app_path('Filament/App/Widgets'),
-                for: 'App\\Filament\\App\\Widgets',
+                in: app_path('Filament/Admin/Widgets'),
+                for: 'App\\Filament\\Admin\\Widgets',
             )
             ->widgets([
                 Widgets\AccountWidget::class,

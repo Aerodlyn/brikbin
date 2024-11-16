@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\PartResource\Pages;
+namespace App\Filament\Admin\Resources\PartResource\Pages;
 
-use App\Filament\Imports\PartImporter;
-use App\Filament\Resources\PartResource;
+use App\Filament\Admin\Imports\PartImporter;
+use App\Filament\Admin\Resources\PartResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Validation\Rules\File;

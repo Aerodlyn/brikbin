@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Admin\Resources;
 
-use App\Filament\Resources\PartResource\Pages;
-use App\Models\Part;
-use Filament\Forms;
+use App\Models\Category;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class PartResource extends Resource
+class CategoryResource extends Resource
 {
-    protected static ?string $model = Part::class;
+    protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('number')
+                TextInput::make('id')
+                    ->label(__('ID'))
                     ->required(),
-                Forms\Components\TextInput::make('description')
+                TextInput::make('name')
                     ->required(),
             ]);
     }
@@ -31,9 +31,10 @@ class PartResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('number')
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('description')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -61,7 +62,9 @@ class PartResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageParts::route('/'),
+            'index' => \App\Filament\Admin\Resources\CategoryResource\Pages\ManageCategories::route(
+                '/',
+            ),
         ];
     }
 }
