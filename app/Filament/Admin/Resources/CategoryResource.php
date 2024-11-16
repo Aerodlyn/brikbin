@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Filament\Admin\Resources\CategoryResource\Pages\ManageCategories;
 use App\Models\Category;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -62,9 +63,7 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Admin\Resources\CategoryResource\Pages\ManageCategories::route(
-                '/',
-            ),
+            'index' => ManageCategories::route('/'),
         ];
     }
 }
