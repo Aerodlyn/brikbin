@@ -29,17 +29,21 @@ class PartImporter extends Importer
 
     public function resolveRecord(): ?Part
     {
-         return Part::firstOrNew([
-             'number' => $this->data['number'],
-         ]);
+        return Part::firstOrNew([
+            'number' => $this->data['number'],
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Your part import has completed and ' . number_format($import->successful_rows) . ' ' . str('row')->plural($import->successful_rows) . ' imported.';
+        $body = 'Your part import has completed and '.number_format(
+                $import->successful_rows,
+            ).' '.str('row')->plural($import->successful_rows).' were imported.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to import.';
+            $body .= ' '.number_format($failedRowsCount).' '.str('row')->plural(
+                    $failedRowsCount,
+                ).' failed to import.';
         }
 
         return $body;

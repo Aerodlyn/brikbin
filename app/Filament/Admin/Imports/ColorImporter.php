@@ -40,7 +40,7 @@ class ColorImporter extends Importer
     {
         $body = 'Your color import has completed and '.number_format(
                 $import->successful_rows,
-            ).' '.str('row')->plural($import->successful_rows).' imported.';
+            ).' '.str('row')->plural($import->successful_rows).' were imported.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
             $body .= ' '.number_format($failedRowsCount).' '.str('row')->plural(

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Color extends Model
 {
@@ -22,5 +23,10 @@ class Color extends Model
                 return null;
             },
         );
+    }
+
+    public function parts(): BelongsToMany
+    {
+        return $this->belongsToMany(Part::class);
     }
 }

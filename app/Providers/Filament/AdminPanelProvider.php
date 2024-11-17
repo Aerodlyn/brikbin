@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->userMenuItems([
                 MenuItem::make()
-                    ->label('App')
+                    ->label('Switch to User View')
                     ->url('/')
                     ->icon('heroicon-o-user'),
             ])

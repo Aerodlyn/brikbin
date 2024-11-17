@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Filament\Admin\Resources\PartResource\Pages\ManageParts;
 use App\Models\Part;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -25,7 +26,11 @@ class PartResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
+                    ->searchable()
                     ->required(),
+                Forms\Components\Select::make('colors')
+                    ->relationship('colors', 'name')
+                    ->multiple()
             ]);
     }
 
@@ -39,6 +44,10 @@ class PartResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('colors_count')
+                    ->label('Colors')
+                    ->counts('colors')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -65,7 +74,7 @@ class PartResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Admin\Resources\PartResource\Pages\ManageParts::route('/'),
+            'index' => ManageParts::route('/'),
         ];
     }
 }
