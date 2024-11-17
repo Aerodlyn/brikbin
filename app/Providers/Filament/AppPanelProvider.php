@@ -35,9 +35,9 @@ class AppPanelProvider extends PanelProvider
             ->profile()
             ->userMenuItems([
                 MenuItem::make()
-                    ->label('Admin')
+                    ->label('Switch to Admin View')
                     ->url('/admin')
-                    ->icon('heroicon-o-user')
+                    ->icon('heroicon-o-building-library')
                     ->visible(
                         fn(): bool => auth()->user()->hasRole(Roles::ADMIN),
                     ),
