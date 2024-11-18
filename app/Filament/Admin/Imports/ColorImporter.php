@@ -17,10 +17,12 @@ class ColorImporter extends Importer
             ImportColumn::make('id')
                 ->label('ID')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required'])
+                ->guess(['color_id', 'color id']),
             ImportColumn::make('name')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required'])
+                ->guess(['color_name', 'color name']),
             ImportColumn::make('rgb')
                 ->label(__('RGB')),
             ImportColumn::make('type')

@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Part extends Model
 {
+    public function bins(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Bin::class)
+            ->withPivot('color_id');
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -15,6 +22,8 @@ class Part extends Model
 
     public function colors(): BelongsToMany
     {
-        return $this->belongsToMany(Color::class);
+        return $this
+            ->belongsToMany(Color::class, 'bin_part')
+            ->withPivot('bin_id');
     }
 }
