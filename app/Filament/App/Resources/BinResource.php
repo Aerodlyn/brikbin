@@ -34,6 +34,12 @@ class BinResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('parts_sum_quantity')
+                    ->label(__('Total quantity'))
+                    ->sum('parts', 'quantity'),
+                Tables\Columns\TextColumn::make('parts_sum_in_use')
+                    ->label(__('Total in-use'))
+                    ->sum('parts', 'in_use'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

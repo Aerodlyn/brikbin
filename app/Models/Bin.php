@@ -4,22 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bin extends Model
 {
-    public function colors(): BelongsToMany
+    public function parts(): HasMany
     {
-        return $this
-            ->belongsToMany(Color::class, 'bin_part')
-            ->withPivot('part_id');
-    }
-
-    public function parts(): BelongsToMany
-    {
-        return $this
-            ->belongsToMany(Part::class)
-            ->withPivot('color_id');
+        return $this->hasMany(BinPart::class);
     }
 
     public function user(): BelongsTo

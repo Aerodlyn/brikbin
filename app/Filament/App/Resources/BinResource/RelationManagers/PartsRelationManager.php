@@ -3,11 +3,11 @@
 namespace App\Filament\App\Resources\BinResource\RelationManagers;
 
 use App\Models\Color;
+use App\Models\Part;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Table;
 
 class PartsRelationManager extends RelationManager
@@ -18,52 +18,53 @@ class PartsRelationManager extends RelationManager
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('part_id')
+                    ->label(__('Part'))
+                    ->options(Part::all()->pluck('description', 'id'))
+                    ->searchable(),
                 Forms\Components\Select::make('color_id')
                     ->label(__('Color'))
                     ->options(Color::all()->pluck('name', 'id'))
                     ->searchable(),
+                Forms\Components\TextInput::make('quantity')
+                    ->numeric()
+                    ->step(1)
+                    ->default(0),
+                Forms\Components\TextInput::make('in_use')
+                    ->numeric()
+                    ->step(1)
+                    ->default(0),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('description')
+            ->recordTitleAttribute('part.description')
             ->columns([
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\ColorColumn::make('colors.rgb')
-                    ->label(__('Color')),
+                Tables\Columns\TextColumn::make('part.description'),
+                Tables\Columns\ColorColumn::make('color.rgb'),
+                Tables\Columns\TextColumn::make('quantity'),
+                Tables\Columns\TextColumn::make('in_use'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                AttachAction::make()
-                    ->form(fn(AttachAction $action): array
-                        => [
-                        $action->getRecordSelect(),
-                        Forms\Components\Select::make('color_id')
-                            ->label(__('Color'))
-                            ->options(Color::all()->pluck('name', 'id'))
-                            ->searchable(),
-                        Forms\Components\TextInput::make('quantity')
-                            ->numeric()
-                            ->step(1)
-                            ->default(0),
-                        Forms\Components\TextInput::make('in_use')
-                            ->numeric()
-                            ->step(1)
-                            ->default(0),
-                    ],
-                    ),
+                Tables\Actions\CreateAction::make()
+                    ->label(__('New part'))
+                    ->modalHeading(__('New part')),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DetachAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->modalHeading(__('Edit part')),
+                Tables\Actions\DeleteAction::make()
+                    ->modalHeading(__('Delete part')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DetachBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->modalHeading(__('Delete selected parts')),
                 ]),
             ])
             ->allowDuplicates();
