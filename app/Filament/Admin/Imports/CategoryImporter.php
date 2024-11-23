@@ -17,10 +17,11 @@ class CategoryImporter extends Importer
             ImportColumn::make('id')
                 ->label('ID')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required'])
+                ->guess(['category_id', 'category id']),
             ImportColumn::make('name')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->guess(['category_name', 'category name']),
         ];
     }
 

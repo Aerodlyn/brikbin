@@ -28,9 +28,6 @@ class PartResource extends Resource
                     ->relationship('category', 'name')
                     ->searchable()
                     ->required(),
-                Forms\Components\Select::make('colors')
-                    ->relationship('colors', 'name')
-                    ->multiple()
             ]);
     }
 
@@ -44,10 +41,6 @@ class PartResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('colors_count')
-                    ->label('Colors')
-                    ->counts('colors')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

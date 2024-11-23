@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Bin;
 use App\Models\Color;
 use App\Models\Part;
 use Illuminate\Database\Migrations\Migration;
@@ -12,11 +13,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('color_part', function (Blueprint $table) {
+        Schema::create('bin_part', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignIdFor(Bin::class);
             $table->foreignIdFor(Part::class);
             $table->foreignIdFor(Color::class);
 
-            $table->primary(['part_id', 'color_id']);
+            $table->integer('quantity')->default(0);
+            $table->integer('in_use')->default(0);
         });
     }
 
@@ -25,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('color_part');
+        Schema::dropIfExists('bin_part');
     }
 };

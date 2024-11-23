@@ -16,14 +16,17 @@ class PartImporter extends Importer
         return [
             ImportColumn::make('number')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required'])
+                ->guess(['part_number', 'part number']),
             ImportColumn::make('description')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required'])
+                ->guess(['part_description', 'part description', 'name']),
             ImportColumn::make('category')
                 ->relationship()
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required'])
+                ->guess(['category_id', 'category id']),
         ];
     }
 
