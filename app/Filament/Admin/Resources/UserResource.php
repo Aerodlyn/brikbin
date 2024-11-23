@@ -1,29 +1,37 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\Admin\Resources;
 
-use App\Filament\App\Resources\BinResource\Pages;
-use App\Filament\Shared\Resources\BinResource\RelationManagers\PartsRelationManager;
-use App\Models\Bin;
+use App\Filament\Admin\Resources\UserResource\Pages;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
-class BinResource extends Resource
+class UserResource extends Resource
 {
-    protected static ?string $model = Bin::class;
+    protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -33,12 +41,11 @@ class BinResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('parts_sum_quantity')
-                    ->label(__('Total quantity'))
-                    ->sum('parts', 'quantity'),
-                Tables\Columns\TextColumn::make('parts_sum_in_use')
-                    ->label(__('Total in-use'))
-                    ->sum('parts', 'in_use'),
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email_verified_at')
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -53,6 +60,7 @@ class BinResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -61,24 +69,10 @@ class BinResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            PartsRelationManager::class,
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListBins::route('/'),
-            'create' => Pages\CreateBin::route('/create'),
-            'edit'   => Pages\EditBin::route('/{record}/edit'),
+            'index' => Pages\ManageUsers::route('/'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->where('user_id', auth()->id());
     }
 }

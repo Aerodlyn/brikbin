@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources\BinResource\RelationManagers;
+namespace App\Filament\Shared\Resources\BinResource\RelationManagers;
 
 use App\Models\Color;
 use App\Models\Part;
