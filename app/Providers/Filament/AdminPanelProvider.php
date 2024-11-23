@@ -34,6 +34,7 @@ class AdminPanelProvider extends PanelProvider
                     ->url('/')
                     ->icon('heroicon-o-user'),
             ])
+            ->brandLogo(fn() => view('filament.shared.logo'))
             ->colors([
                 'primary' => Color::Red,
             ])
@@ -70,6 +71,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->databaseNotifications();
+            ->databaseNotifications()
+            ->spa();
     }
 }

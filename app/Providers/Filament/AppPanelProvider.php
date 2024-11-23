@@ -42,6 +42,7 @@ class AppPanelProvider extends PanelProvider
                         fn(): bool => auth()->user()->hasRole(Roles::ADMIN),
                     ),
             ])
+            ->brandLogo(fn() => view('filament.shared.logo'))
             ->colors([
                 'primary' => Color::Red,
             ])
@@ -62,7 +63,6 @@ class AppPanelProvider extends PanelProvider
             )
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

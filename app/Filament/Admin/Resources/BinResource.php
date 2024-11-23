@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\Admin\Resources;
 
-use App\Filament\App\Resources\BinResource\Pages;
+use App\Filament\Admin\Resources\BinResource\Pages;
 use App\Filament\Shared\Resources\BinResource\RelationManagers\PartsRelationManager;
 use App\Models\Bin;
 use Filament\Forms;
@@ -10,7 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class BinResource extends Resource
 {
@@ -22,8 +21,12 @@ class BinResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
                     ->required(),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -31,14 +34,11 @@ class BinResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('user.name')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('parts_sum_quantity')
-                    ->label(__('Total quantity'))
-                    ->sum('parts', 'quantity'),
-                Tables\Columns\TextColumn::make('parts_sum_in_use')
-                    ->label(__('Total in-use'))
-                    ->sum('parts', 'in_use'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -71,14 +71,9 @@ class BinResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListBins::route('/'),
+            'index' => Pages\ListBins::route('/'),
             'create' => Pages\CreateBin::route('/create'),
-            'edit'   => Pages\EditBin::route('/{record}/edit'),
+            'edit' => Pages\EditBin::route('/{record}/edit'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->where('user_id', auth()->id());
     }
 }
