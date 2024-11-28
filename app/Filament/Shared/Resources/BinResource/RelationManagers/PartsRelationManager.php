@@ -23,18 +23,21 @@ class PartsRelationManager extends RelationManager
                     ->label(__('Part'))
                     ->getSearchResultsUsing(
                         fn(string $search): array => Part::where(
-                            fn(Builder $query) => $query
-                                ->where('description', 'like', "%{$search}%")
+                            fn(Builder $query)
+                                => $query
+                                ->whereFullText('description', $search)
                                 ->orWhere(
                                     'number',
                                     '=',
-                                    $search
-                                )
+                                    $search,
+                                ),
                         )->limit(
-                            50
-                        )->pluck('description', 'id')->toArray()
+                            50,
+                        )->pluck('description', 'id')->toArray(),
                     )
-                    ->getOptionLabelUsing(fn($value): ?string => Part::find($value)?->description)
+                    ->getOptionLabelUsing(
+                        fn($value): ?string => Part::find($value)?->description,
+                    )
                     ->searchable(),
                 Forms\Components\Select::make('color_id')
                     ->label(__('Color'))
