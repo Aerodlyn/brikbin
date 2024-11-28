@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PartsRelationManager extends RelationManager
 {
@@ -20,7 +21,20 @@ class PartsRelationManager extends RelationManager
             ->schema([
                 Forms\Components\Select::make('part_id')
                     ->label(__('Part'))
-                    ->options(Part::all()->pluck('description', 'id'))
+                    ->getSearchResultsUsing(
+                        fn(string $search): array => Part::where(
+                            fn(Builder $query) => $query
+                                ->where('description', 'like', "%{$search}%")
+                                ->orWhere(
+                                    'number',
+                                    '=',
+                                    $search
+                                )
+                        )->limit(
+                            50
+                        )->pluck('description', 'id')->toArray()
+                    )
+                    ->getOptionLabelUsing(fn($value): ?string => Part::find($value)?->description)
                     ->searchable(),
                 Forms\Components\Select::make('color_id')
                     ->label(__('Color'))
