@@ -17,6 +17,12 @@ class Inventory extends BaseWidget
         return $table
             ->query(
                 BinPart::query()
+                    ->whereRelation(
+                        'bin',
+                        'user_id',
+                        '=',
+                        auth()->id(),
+                    ),
             )
             ->columns([
                 Tables\Columns\TextColumn::make('part.description'),
@@ -26,10 +32,14 @@ class Inventory extends BaseWidget
             ])
             ->defaultGroup(
                 Tables\Grouping\Group::make('bin.name')
-                    ->titlePrefixedWithLabel(false)
+                    ->titlePrefixedWithLabel(false),
             )
             ->recordUrl(
-                fn(Model $record): string => route('filament.app.resources.bins.edit', ['record' => $record->bin_id])
+                fn(Model $record): string
+                    => route(
+                    'filament.app.resources.bins.edit',
+                    ['record' => $record->bin_id],
+                ),
             );
     }
 }
